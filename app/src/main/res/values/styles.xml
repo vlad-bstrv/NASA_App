@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="myFloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+
+        <item name="android:backgroundTint">#0E2ADF</item>
+    </style>
+
+    <style name="myBottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="android:backgroundTint">#343853</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="myButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/red_600</item>
+    </style>
+
+    <style name="mySwitchStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="android:textColor">@color/cyan_900</item>
+        <item name="trackTint">@color/red_900</item>
+    </style>
+</resources>

@@ -1,11 +1,13 @@
 package com.vladbstrv.nasaapp.view.chips
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -19,14 +21,19 @@ import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.FragmentChipsBinding
 import com.vladbstrv.nasaapp.databinding.PictureOfTheDayFragmentBinding
 import com.vladbstrv.nasaapp.view.MainActivity
+import com.vladbstrv.nasaapp.view.ThemeOne
+import com.vladbstrv.nasaapp.view.ThemeThree
+import com.vladbstrv.nasaapp.view.ThemeTwo
 
-class ChipsFragment : Fragment() {
+class ChipsFragment : Fragment(), View.OnClickListener {
 
     private var _binding: FragmentChipsBinding? = null
     private val binding: FragmentChipsBinding get() = _binding!!
+    private lateinit var parentActivity: MainActivity
 
-    companion object {
-        fun newInstance() = ChipsFragment()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        parentActivity = requireActivity() as MainActivity
     }
 
     override fun onCreateView(
@@ -39,17 +46,41 @@ class ChipsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            binding.chipGroup.findViewById<Chip>(checkedId)?.let {
-                Toast.makeText(requireContext(), "chep $checkedId ${it.text}", Toast.LENGTH_SHORT).show()
+        binding.rbtnOrangeTheme.setOnClickListener(this)
+        binding.rbtnTealTheme.setOnClickListener(this)
+        binding.rbtnCyanTheme.setOnClickListener(this)
+
+        when (parentActivity.getCurrentTheme()) {
+            1 -> binding.radioGroup.check(R.id.rbtnOrangeTheme)
+            2 -> binding.radioGroup.check(R.id.rbtnTealTheme)
+            3 -> binding.radioGroup.check(R.id.rbtnCyanTheme)
+        }
+    }
+
+    override fun onClick(v: View) {
+        when(v.id) {
+            R.id.rbtnOrangeTheme -> {
+                parentActivity.setCurrentTheme(ThemeOne)
+                parentActivity.recreate()
+            }
+            R.id.rbtnTealTheme -> {
+                parentActivity.setCurrentTheme(ThemeTwo)
+                parentActivity.recreate()
+            }
+            R.id.rbtnCyanTheme -> {
+                parentActivity.setCurrentTheme(ThemeThree)
+                parentActivity.recreate()
             }
         }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        fun newInstance() = ChipsFragment()
     }
 
 }

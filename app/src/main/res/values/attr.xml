@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="superColor1_100" format="color"/>
+    <attr name="superColor1_200" format="color"/>
+    <attr name="superColor1_300" format="color"/>
+    <attr name="superColor1_400" format="color"/>
+    <attr name="superColor1_500" format="color"/>
+    <attr name="superColor1_600" format="color"/>
+    <attr name="superColor1_700" format="color"/>
+    <attr name="superColor1_800" format="color"/>
+    <attr name="superColor1_900" format="color"/>
+
+    <attr name="superColor2_100" format="color"/>
+    <attr name="superColor2_200" format="color"/>
+    <attr name="superColor2_300" format="color"/>
+    <attr name="superColor2_400" format="color"/>
+    <attr name="superColor2_500" format="color"/>
+    <attr name="superColor2_600" format="color"/>
+    <attr name="superColor2_700" format="color"/>
+    <attr name="superColor2_800" format="color"/>
+    <attr name="superColor2_900" format="color"/>
+
+    <attr name="superColor3_100" format="color"/>
+    <attr name="superColor3_200" format="color"/>
+    <attr name="superColor3_300" format="color"/>
+    <attr name="superColor3_400" format="color"/>
+    <attr name="superColor3_500" format="color"/>
+    <attr name="superColor3_600" format="color"/>
+    <attr name="superColor3_700" format="color"/>
+    <attr name="superColor3_800" format="color"/>
+    <attr name="superColor3_900" format="color"/>
+</resources>

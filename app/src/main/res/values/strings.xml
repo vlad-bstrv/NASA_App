@@ -10,4 +10,8 @@
     <string name="imageDesc">Картинка</string>
     <string name="error">Ошибка</string>
     <string name="repeat_the_download">Повторить загрузку</string>
+    <string name="thems_app_fragment_chips">Темы приложения</string>
+    <string name="orange_theme">Оранжевая тема</string>
+    <string name="teal_theme">Сине-зелёная тема</string>
+    <string name="cyan_theme">Голубая тема</string>
 </resources>
