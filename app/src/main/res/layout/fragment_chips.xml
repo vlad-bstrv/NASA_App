@@ -69,4 +69,47 @@
 
     </com.google.android.material.chip.ChipGroup>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Switch" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/thems_app_fragment_chips"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbtnOrangeTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orange_theme"
+            android:textColor="@color/orange_600"/>
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbtnTealTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/teal_theme"
+            android:textColor="@color/teal_600"/>
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbtnCyanTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cyan_theme"
+            android:textColor="@color/cyan_600"/>
+    </RadioGroup>
+
 </LinearLayout>
