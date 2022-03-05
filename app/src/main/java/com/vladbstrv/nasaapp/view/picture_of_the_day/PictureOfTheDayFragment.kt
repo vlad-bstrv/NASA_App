@@ -60,7 +60,7 @@ class PictureOfTheDayFragment : Fragment() {
         }
 
 
-        setMenuAppBar()
+//        setMenuAppBar()
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.sendServerRequest()
 
@@ -74,39 +74,39 @@ class PictureOfTheDayFragment : Fragment() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.included.bottomSheetContainer)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
-        binding.fab.setOnClickListener {
-            if (isMain) {
-                binding.bottomAppBar.navigationIcon = null
-                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                binding.fab.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_back_fab
-                    )
-                )
-                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_other_screen)
-            } else {
-                binding.bottomAppBar.navigationIcon = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_hamburger_menu_bottom_bar
-                )
-                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                binding.fab.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_plus_fab
-                    )
-                )
-                binding.bottomAppBar.replaceMenu(R.menu.menu_botton_bar)
-            }
-            isMain = !isMain
-        }
+//        binding.fab.setOnClickListener {
+//            if (isMain) {
+//                binding.bottomAppBar.navigationIcon = null
+//                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+//                binding.fab.setImageDrawable(
+//                    ContextCompat.getDrawable(
+//                        requireContext(),
+//                        R.drawable.ic_back_fab
+//                    )
+//                )
+//                binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_other_screen)
+//            } else {
+//                binding.bottomAppBar.navigationIcon = ContextCompat.getDrawable(
+//                    requireContext(),
+//                    R.drawable.ic_hamburger_menu_bottom_bar
+//                )
+//                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+//                binding.fab.setImageDrawable(
+//                    ContextCompat.getDrawable(
+//                        requireContext(),
+//                        R.drawable.ic_plus_fab
+//                    )
+//                )
+//                binding.bottomAppBar.replaceMenu(R.menu.menu_botton_bar)
+//            }
+//            isMain = !isMain
+//    }
     }
 
-    private fun setMenuAppBar() {
-        setHasOptionsMenu(true)
-        (requireActivity() as MainActivity).setSupportActionBar(binding.bottomAppBar)
-    }
+//    private fun setMenuAppBar() {
+//        setHasOptionsMenu(true)
+//        (requireActivity() as MainActivity).setSupportActionBar(binding.bottomAppBar)
+//    }
 
     var isMain = true
 
