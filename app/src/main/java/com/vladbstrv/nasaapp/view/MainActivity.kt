@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.ActivityMainBinding
 import com.vladbstrv.nasaapp.view.chips.ChipsFragment
+import com.vladbstrv.nasaapp.view.picture_galaxy.GalaxyMainFragment
 import com.vladbstrv.nasaapp.view.picture_of_the_day.PictureOfTheDayFragment
 
 const val ThemeOne = 1
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.bottom_view_photo_system -> {
+                    navigationTo(GalaxyMainFragment())
                     true
                 }
                 R.id.bottom_view_settings -> {
