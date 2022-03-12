@@ -1,4 +1,4 @@
-package com.vladbstrv.nasaapp.remote_repository
+package com.vladbstrv.nasaapp.remote_repository.DTO
 
 import com.google.gson.annotations.SerializedName
 

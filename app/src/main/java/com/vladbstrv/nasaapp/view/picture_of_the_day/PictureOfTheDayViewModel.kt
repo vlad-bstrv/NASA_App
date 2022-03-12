@@ -1,89 +1,81 @@
 package com.vladbstrv.nasaapp.view.picture_of_the_day
 
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vladbstrv.nasaapp.BuildConfig
-import com.vladbstrv.nasaapp.remote_repository.PictureOfTheDayDTO
-import com.vladbstrv.nasaapp.remote_repository.PictureOfTheDayRemoteRepositoryImpl
+import com.vladbstrv.nasaapp.remote_repository.DTO.PictureOfTheDayDTO
+import com.vladbstrv.nasaapp.remote_repository.RetrofitImpl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class PictureOfTheDayViewModel(
     private val liveData: MutableLiveData<PictureOfTheDayState> = MutableLiveData(),
-    private val pictureOfTheDayRemoteRepositoryImpl: PictureOfTheDayRemoteRepositoryImpl = PictureOfTheDayRemoteRepositoryImpl()
+    private val retrofitImpl: RetrofitImpl = RetrofitImpl()
 ) : ViewModel() {
 
     fun getLiveData(): LiveData<PictureOfTheDayState> {
         return liveData
     }
 
-    fun sendServerRequest() {
+    fun sendServerRequest(day: Int) {
+        val date = getDate(day)
         liveData.postValue(PictureOfTheDayState.Loading(null))
-        pictureOfTheDayRemoteRepositoryImpl.getRetrofitImpl()
-            .getPictureOfTheDay(BuildConfig.NASA_API_KEY).enqueue(
-                object : Callback<PictureOfTheDayDTO> {
-                    override fun onResponse(
-                        call: Call<PictureOfTheDayDTO>,
-                        response: Response<PictureOfTheDayDTO>
-                    ) {
-                        if (response.isSuccessful && response.body() != null) {
-                            response.body()?.let {
-                                liveData.postValue(PictureOfTheDayState.Success(it))
-                            }
-                        } else {
-                            Log.e("onResponseForSendServerRequest", response.errorBody().toString())
-                        }
-                    }
+        val apiKey = BuildConfig.NASA_API_KEY
+        if (apiKey.isBlank()) {
+            PictureOfTheDayState.Error(Throwable(API_ERROR))
+        } else {
+            retrofitImpl.getPictureOfTheDay(apiKey, date, PODCallback)
+        }
 
-                    override fun onFailure(call: Call<PictureOfTheDayDTO>, t: Throwable) {
-                        liveData.postValue(PictureOfTheDayState.Error(t))
-                        Log.e("failureForSendServerRequest", t.message.toString())
-                    }
-
-                }
-            )
     }
 
-    fun sendServerRequestForDate(date: Int) {
-        liveData.postValue(PictureOfTheDayState.Loading(null))
-        pictureOfTheDayRemoteRepositoryImpl.getRetrofitImpl()
-            .getPictureOfTheDayForDate(BuildConfig.NASA_API_KEY, getDate(date)).enqueue(
-                object : Callback<PictureOfTheDayDTO> {
-                    override fun onResponse(
-                        call: Call<PictureOfTheDayDTO>,
-                        response: Response<PictureOfTheDayDTO>
-                    ) {
-                        if (response.isSuccessful && response.body() != null) {
-                            response.body()?.let {
-                                liveData.postValue(PictureOfTheDayState.Success(it))
-                            }
-                        } else {
-                            Log.e(
-                                "onResponseForSendServerRequestForDate",
-                                response.errorBody().toString()
-                            )
+    private val PODCallback = object : Callback<PictureOfTheDayDTO> {
 
-                        }
-                    }
-
-                    override fun onFailure(call: Call<PictureOfTheDayDTO>, t: Throwable) {
-                        liveData.postValue(PictureOfTheDayState.Error(t))
-                        Log.e("failureForSendServerRequestForDate", t.message.toString())
-                    }
-
+        override fun onResponse(
+            call: Call<PictureOfTheDayDTO>,
+            response: Response<PictureOfTheDayDTO>,
+        ) {
+            if (response.isSuccessful && response.body() != null) {
+                liveData.postValue(PictureOfTheDayState.Success(response.body()!!))
+            } else {
+                val message = response.message()
+                if (message.isNullOrEmpty()) {
+                    liveData.postValue(PictureOfTheDayState.Error(Throwable(UNKNOWN_ERROR)))
+                } else {
+                    liveData.postValue(PictureOfTheDayState.Error(Throwable(message)))
                 }
-            )
+            }
+        }
+
+        override fun onFailure(call: Call<PictureOfTheDayDTO>, t: Throwable) {
+            liveData.postValue(PictureOfTheDayState.Error(t))
+        }
     }
+
 
     private fun getDate(day: Int): String {
-        val cal = Calendar.getInstance()
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        cal.add(Calendar.DATE, -day + 1)
-        return simpleDateFormat.format(cal.time)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val yesterday = LocalDateTime.now().minusDays(day.toLong())
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            return yesterday.format(formatter)
+        } else {
+            val cal: Calendar = Calendar.getInstance()
+            val s = SimpleDateFormat("yyyy-MM-dd")
+            cal.add(Calendar.DAY_OF_YEAR, (-day))
+            return s.format(cal.time)
+        }
+    }
+
+    companion object {
+        private const val API_ERROR = "You need API Key"
+        private const val UNKNOWN_ERROR = "Unidentified error"
     }
 }

@@ -5,7 +5,7 @@
     <string name="search_wiki">Найти в Википедии</string>
     <string name="wiki_helper_text">Поищите термин в википедии</string>
     <string name="favourite">favourite</string>
-    <string name="settings">settings</string>
+    <string name="settings">Настройки</string>
     <string name="search">Search</string>
     <string name="imageDesc">Картинка</string>
     <string name="error">Ошибка</string>
@@ -14,4 +14,8 @@
     <string name="orange_theme">Оранжевая тема</string>
     <string name="teal_theme">Сине-зелёная тема</string>
     <string name="cyan_theme">Голубая тема</string>
+    <string name="main">Главная</string>
+    <string name="galaxy">Галактика</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

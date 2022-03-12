@@ -2,8 +2,11 @@ package com.vladbstrv.nasaapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.ActivityMainBinding
+import com.vladbstrv.nasaapp.view.chips.ChipsFragment
+import com.vladbstrv.nasaapp.view.picture_galaxy.GalaxyMainFragment
 import com.vladbstrv.nasaapp.view.picture_of_the_day.PictureOfTheDayFragment
 
 const val ThemeOne = 1
@@ -23,12 +26,36 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initBottomNavigationView()
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, PictureOfTheDayFragment.newInstance())
-                .commit()
+    }
+
+    private fun initBottomNavigationView() {
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottom_view_main -> {
+                    navigationTo(PictureOfTheDayFragment())
+                    true
+                }
+                R.id.bottom_view_photo_system -> {
+                    navigationTo(GalaxyMainFragment())
+                    true
+                }
+                R.id.bottom_view_settings -> {
+                    navigationTo(ChipsFragment())
+                    true
+                }
+                else -> true
+            }
         }
+
+        binding.bottomNavigationView.selectedItemId = R.id.bottom_view_main
+    }
+
+    private fun navigationTo(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .commit()
     }
 
     fun setCurrentTheme(currentTheme: Int) {
