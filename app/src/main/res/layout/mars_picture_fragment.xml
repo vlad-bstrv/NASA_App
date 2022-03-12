@@ -3,13 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.picture_galaxy.picture_mars.MarsPictureFragment">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/textView"/>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_no_photo_vector"/>
+
+    <FrameLayout
+        android:id="@+id/loadingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Марс"
-        android:textSize="32sp"
-        android:gravity="center"/>
+        android:background="@color/white"
+        tools:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
 </FrameLayout>
