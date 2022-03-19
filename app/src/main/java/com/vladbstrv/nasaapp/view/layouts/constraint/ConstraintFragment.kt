@@ -14,6 +14,7 @@ class ConstraintFragment : Fragment() {
     private var _binding: FragmentConstraintBinding? = null
     private val binding: FragmentConstraintBinding
         get() = _binding!!
+    private var checkVisibilityGroup: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +27,20 @@ class ConstraintFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnPercent.setOnClickListener {
+            if (checkVisibilityGroup) {
+                binding.groupBtn.visibility = View.GONE
+                checkVisibilityGroup = false
+            } else {
+                binding.groupBtn.visibility = View.VISIBLE
+                checkVisibilityGroup = true
+            }
+
+        }
     }
 
 
