@@ -7,6 +7,7 @@ import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.ActivityLayoutBinding
 import com.vladbstrv.nasaapp.view.layouts.constraint.ConstraintFragment
 import com.vladbstrv.nasaapp.view.layouts.coordinator.CoordinatorFragment
+import com.vladbstrv.nasaapp.view.layouts.motion.MotionFragment
 
 class LayoutActivity : AppCompatActivity() {
 
@@ -27,6 +28,10 @@ class LayoutActivity : AppCompatActivity() {
                 }
                 R.id.bottom_coordinator -> {
                     navigateTo(CoordinatorFragment())
+                    true
+                }
+                R.id.bottom_motion -> {
+                    navigateTo(MotionFragment())
                     true
                 }
                 else -> true

@@ -9,4 +9,10 @@
         android:id="@+id/bottom_coordinator"
         android:icon="@drawable/ic_galaxy"
         android:title="@string/coordinator" />
+
+    <item
+        android:id="@+id/bottom_motion"
+        android:icon="@drawable/ic_galaxy"
+        android:title="@string/motion" />
+
 </menu>
