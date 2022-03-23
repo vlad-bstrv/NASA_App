@@ -110,4 +110,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="motion">Motion</string>
+    <string name="hide">Скрыть</string>
 </resources>

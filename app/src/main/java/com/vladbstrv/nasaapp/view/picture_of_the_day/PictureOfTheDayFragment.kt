@@ -6,12 +6,16 @@ import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import coil.load
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -32,6 +36,8 @@ class PictureOfTheDayFragment : Fragment() {
 
     private var _binding: PictureOfTheDayFragmentBinding? = null
     private val binding: PictureOfTheDayFragmentBinding get() = _binding!!
+    private var flag = false
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     companion object {
         fun newInstance() = PictureOfTheDayFragment()
@@ -49,7 +55,6 @@ class PictureOfTheDayFragment : Fragment() {
         return binding.root
     }
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,6 +77,67 @@ class PictureOfTheDayFragment : Fragment() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.included.bottomSheetContainer)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.main)
+
+        binding.imageView.setOnClickListener {
+            showDescription(constraintSet)
+        }
+        binding.btnCloseCardView.setOnClickListener {
+            hideDescription(constraintSet)
+        }
+    }
+
+    private fun animateCardViewDescription() {
+        val changeBounds = ChangeBounds()
+        changeBounds.interpolator = AnticipateOvershootInterpolator(2.0f)
+        changeBounds.duration = 1000L
+        TransitionManager.beginDelayedTransition(binding.main, changeBounds)
+    }
+
+
+    private fun hideDescription(constraintSet: ConstraintSet) {
+        flag = !flag
+        animateCardViewDescription()
+        constraintSet.connect(
+            R.id.cardViewDescription,
+            ConstraintSet.END,
+            R.id.main,
+            ConstraintSet.START
+        )
+        constraintSet.clear(R.id.cardViewDescription, ConstraintSet.START)
+        constraintSet.applyTo(binding.main)
+    }
+
+    private fun showDescription(constraintSet: ConstraintSet) {
+        flag = !flag
+        animateCardViewDescription()
+
+        if (flag) {
+
+            constraintSet.connect(
+                R.id.cardViewDescription,
+                ConstraintSet.END,
+                R.id.main,
+                ConstraintSet.END
+            )
+            constraintSet.connect(
+                R.id.cardViewDescription,
+                ConstraintSet.START,
+                R.id.main,
+                ConstraintSet.START
+            )
+            constraintSet.applyTo(binding.main)
+        } else {
+            constraintSet.connect(
+                R.id.cardViewDescription,
+                ConstraintSet.END,
+                R.id.main,
+                ConstraintSet.START
+            )
+            constraintSet.clear(R.id.cardViewDescription, ConstraintSet.START)
+            constraintSet.applyTo(binding.main)
+        }
     }
 
     fun renderData(pictureOfTheDayState: PictureOfTheDayState) {
@@ -94,6 +160,9 @@ class PictureOfTheDayFragment : Fragment() {
                     pictureOfTheDayState.serverResponseData.title
                 binding.included.bottomSheetDescription.text =
                     pictureOfTheDayState.serverResponseData.explanation
+
+                binding.tvTitle.text = pictureOfTheDayState.serverResponseData.title
+                binding.tvDescription.text = pictureOfTheDayState.serverResponseData.explanation
             }
         }
     }

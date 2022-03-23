@@ -78,7 +78,53 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_no_photo_vector" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_text_view_card_view_description"
+                    android:paddingStart="@dimen/padding_text_view_card_view_description"
+                    android:paddingEnd="@dimen/padding_text_view_card_view_description"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    tools:text="title" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/padding_text_view_card_view_description"
+                    android:paddingEnd="@dimen/padding_text_view_card_view_description"
+                    tools:text="description" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCloseCardView"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/hide" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <include
         android:id="@+id/included"
@@ -97,20 +143,5 @@
             android:layout_height="match_parent"
             android:layout_gravity="center" />
     </FrameLayout>
-
-<!--    <com.google.android.material.bottomappbar.BottomAppBar-->
-<!--        android:id="@+id/bottom_app_bar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        app:fabAlignmentMode="center"-->
-<!--        app:navigationIcon="@drawable/ic_hamburger_menu_bottom_bar" />-->
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_anchor="@id/bottom_app_bar"-->
-<!--        app:srcCompat="@drawable/ic_plus_fab" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

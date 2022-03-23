@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_navigation_view">8dp</dimen>
+    <dimen name="padding_text_view_card_view_description">10dp</dimen>
+    <dimen name="margin_text_view_card_view_description">5dp</dimen>
 </resources>
