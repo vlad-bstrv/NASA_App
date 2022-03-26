@@ -3,7 +3,8 @@
     <Transition
         motion:constraintSetStart="@layout/fragment_motion_start"
         motion:constraintSetEnd="@layout/fragment_motion_end"
-        motion:duration="2000">
+        motion:duration="1000">
+<!--        <OnClick motion:targetId="@+id/btn_start_animation" />-->
         <OnSwipe
             motion:touchAnchorId="@+id/btn_start_animation"
             motion:touchAnchorSide="right"

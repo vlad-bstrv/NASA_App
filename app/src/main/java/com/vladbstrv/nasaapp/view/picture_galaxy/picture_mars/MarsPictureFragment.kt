@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.Observer
+import androidx.transition.ChangeImageTransform
+import androidx.transition.TransitionManager
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.vladbstrv.nasaapp.R
@@ -16,7 +19,7 @@ class MarsPictureFragment : Fragment() {
 
     private var _binding: MarsPictureFragmentBinding? = null
     private val binding: MarsPictureFragmentBinding get() = _binding!!
-
+    private var flag = false
 
     private lateinit var viewModel: MarsPictureViewModel
 
@@ -34,6 +37,18 @@ class MarsPictureFragment : Fragment() {
 
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getMarsPicture()
+        binding.imageViewMars.setOnClickListener {
+            zoomImageView()
+        }
+    }
+
+    private fun zoomImageView() {
+        val changeBounds = ChangeImageTransform()
+        TransitionManager.beginDelayedTransition(binding.container, changeBounds)
+
+        flag = !flag
+        binding.imageViewMars.scaleType =
+            if (flag) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.CENTER_INSIDE
     }
 
     fun renderData(marsPictureState: MarsPictureState) {
@@ -51,11 +66,15 @@ class MarsPictureFragment : Fragment() {
             }
             is MarsPictureState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
-                if(marsPictureState.serverResponseData.photos.isEmpty()){
-                    Snackbar.make(binding.root, "В этот день curiosity не сделал ни одного снимка", Snackbar.LENGTH_SHORT).show()
-                }else{
+                if (marsPictureState.serverResponseData.photos.isEmpty()) {
+                    Snackbar.make(
+                        binding.root,
+                        "В этот день curiosity не сделал ни одного снимка",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                } else {
                     val url = marsPictureState.serverResponseData.photos.first().img_src
-                    binding.imageView1.load(url)
+                    binding.imageViewMars.load(url)
                 }
             }
         }

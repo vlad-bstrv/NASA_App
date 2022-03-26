@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.picture_galaxy.picture_mars.MarsPictureFragment">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/textView"/>
+        android:layout_height="match_parent" />
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="350dp"
+        android:id="@+id/imageViewMars"
+        android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_no_photo_vector"/>
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/ic_no_photo_vector" />
 
     <FrameLayout
         android:id="@+id/loadingLayout"
