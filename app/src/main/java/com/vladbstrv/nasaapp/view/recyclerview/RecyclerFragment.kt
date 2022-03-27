@@ -37,11 +37,11 @@ class RecyclerFragment : Fragment() {
 
         val data = arrayListOf(
 
-            Data(getString(R.string.mars), type = TYPE_MARS),
+            Pair(Data(getString(R.string.mars), type = TYPE_MARS), false),
         )
         data.shuffle()
 
-        data.add(0, Data("Header", type = TYPE_HEADER))
+        data.add(0, Pair(Data("Header", type = TYPE_HEADER), false))
 
         val adapter = RecyclerAdapter(object : OnListItemClickListener {
             override fun onItemClick(data: Data) {
