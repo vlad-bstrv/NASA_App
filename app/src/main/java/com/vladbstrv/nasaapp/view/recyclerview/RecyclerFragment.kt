@@ -36,11 +36,7 @@ class RecyclerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val data = arrayListOf(
-            Data(getString(R.string.earth), "Дополнительный текст", type = TYPE_EARTH),
-            Data(getString(R.string.earth), "Дополнительный текст", type = TYPE_EARTH),
-            Data(getString(R.string.mars), type = TYPE_MARS),
-            Data(getString(R.string.mars), type = TYPE_MARS),
-            Data(getString(R.string.mars), type = TYPE_MARS),
+
             Data(getString(R.string.mars), type = TYPE_MARS),
         )
         data.shuffle()

@@ -28,17 +28,29 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
         parent: ViewGroup,
         viewType: Int
     ): RecyclerAdapter.BaseViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             TYPE_EARTH -> {
-                val binding = FragmentRecyclerItemEarthBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = FragmentRecyclerItemEarthBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 EarthViewHolder(binding.root)
             }
             TYPE_HEADER -> {
-                val binding = FragmentRecyclerItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = FragmentRecyclerItemHeaderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 HeaderViewHolder(binding.root)
             }
             else -> {
-                val binding = FragmnetRecyclerItemMarsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding = FragmnetRecyclerItemMarsBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 MarsViewHolder(binding.root)
             }
         }
@@ -84,6 +96,24 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
                 removeItemImageView.setOnClickListener {
                     listData.removeAt(layoutPosition)
                     notifyItemRemoved(layoutPosition)
+                }
+
+                moveItemDown.setOnClickListener {
+                    if (layoutPosition < listData.size - 1) {
+                        listData.removeAt(layoutPosition).apply {
+                            listData.add(layoutPosition + 1, this)
+                            notifyItemMoved(layoutPosition, layoutPosition + 1)
+                        }
+                    }
+                }
+
+                moveItemUp.setOnClickListener {
+                    if (layoutPosition > 1) {
+                        listData.removeAt(layoutPosition).apply {
+                            listData.add(layoutPosition - 1, this)
+                            notifyItemMoved(layoutPosition, layoutPosition - 1)
+                        }
+                    }
                 }
             }
         }
