@@ -17,6 +17,13 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
         this.listData = listData
     }
 
+    fun appendItem() {
+        listData.add(generateItem())
+        notifyItemInserted(listData.size - 1)
+    }
+
+    private fun generateItem() = Data("Mars", type = TYPE_MARS)
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -69,6 +76,14 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
                 tvName.text = data.name
                 ivMars.setOnClickListener {
                     onListItemClickListener.onItemClick(data)
+                }
+                addItemImageView.setOnClickListener {
+                    listData.add(layoutPosition, generateItem())
+                    notifyItemInserted(layoutPosition)
+                }
+                removeItemImageView.setOnClickListener {
+                    listData.removeAt(layoutPosition)
+                    notifyItemRemoved(layoutPosition)
                 }
             }
         }

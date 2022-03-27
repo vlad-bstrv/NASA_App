@@ -38,15 +38,16 @@ class RecyclerFragment : Fragment() {
         val data = arrayListOf(
             Data(getString(R.string.earth), "Дополнительный текст", type = TYPE_EARTH),
             Data(getString(R.string.earth), "Дополнительный текст", type = TYPE_EARTH),
-            Data(getString(R.string.earth), "Дополнительный текст", type = TYPE_EARTH),
-            Data(getString(R.string.earth), "Дополнительный текст", type = TYPE_EARTH),
-            Data(getString(R.string.mars), type=TYPE_MARS),
-            Data(getString(R.string.mars), type=TYPE_MARS),
-            Data(getString(R.string.mars), type=TYPE_MARS),
-            Data(getString(R.string.mars), type=TYPE_MARS),
+            Data(getString(R.string.mars), type = TYPE_MARS),
+            Data(getString(R.string.mars), type = TYPE_MARS),
+            Data(getString(R.string.mars), type = TYPE_MARS),
+            Data(getString(R.string.mars), type = TYPE_MARS),
         )
+        data.shuffle()
 
-        val adapter = RecyclerAdapter(object : OnListItemClickListener{
+        data.add(0, Data("Header", type = TYPE_HEADER))
+
+        val adapter = RecyclerAdapter(object : OnListItemClickListener {
             override fun onItemClick(data: Data) {
                 Toast.makeText(requireContext(), data.name, Toast.LENGTH_SHORT).show()
             }
@@ -54,6 +55,7 @@ class RecyclerFragment : Fragment() {
 
         adapter.setData(data)
         binding.recyclerView.adapter = adapter
+        binding.recyclerActivityFAB.setOnClickListener { adapter.appendItem() }
     }
 
     override fun onDestroy() {
