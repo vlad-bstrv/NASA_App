@@ -8,6 +8,7 @@ import com.vladbstrv.nasaapp.databinding.ActivityMainBinding
 import com.vladbstrv.nasaapp.view.chips.ChipsFragment
 import com.vladbstrv.nasaapp.view.picture_galaxy.GalaxyMainFragment
 import com.vladbstrv.nasaapp.view.picture_of_the_day.PictureOfTheDayFragment
+import com.vladbstrv.nasaapp.view.recyclerview.RecyclerFragment
 
 const val ThemeOne = 1
 const val ThemeTwo = 2
@@ -39,6 +40,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.bottom_view_photo_system -> {
                     navigationTo(GalaxyMainFragment())
+                    true
+                }
+                R.id.bottom_view_recycler_view -> {
+                    navigationTo(RecyclerFragment())
                     true
                 }
                 R.id.bottom_view_settings -> {

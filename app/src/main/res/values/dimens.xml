@@ -3,4 +3,14 @@
     <dimen name="margin_navigation_view">8dp</dimen>
     <dimen name="padding_text_view_card_view_description">10dp</dimen>
     <dimen name="margin_text_view_card_view_description">5dp</dimen>
+    <dimen name="fragment_recycler_item_earth_ivEarth_width">120dp</dimen>
+    <dimen name="fragment_recycler_item_earth_ivEarth_height">120dp</dimen>
+    <dimen name="fragment_recycler_item_earth_tvTitle_text_size">35sp</dimen>
+    <dimen name="fragment_recycler_item_earth_ivWiki_margin">15dp</dimen>
+    <dimen name="fragment_recycler_item_earth_tvDescription_text_size">15sp</dimen>
+    <dimen name="fragment_recycler_item_mars_ivMars_width">120dp</dimen>
+    <dimen name="fragment_recycler_item_mars_ivMars_height">120dp</dimen>
+    <dimen name="fragment_recycler_item_mars_tvTitle_text_size">35sp</dimen>
+    <dimen name="fragment_recycler_item_header_tvName_padding">15dp</dimen>
+    <dimen name="fragment_recycler_item_header_tvName_textSize">35sp</dimen>
 </resources>

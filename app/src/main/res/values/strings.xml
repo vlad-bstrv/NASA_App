@@ -111,4 +111,7 @@
     </string>
     <string name="motion">Motion</string>
     <string name="hide">Скрыть</string>
+    <string name="list">Список</string>
+    <string name="earth">земля</string>
+    <string name="mars">марс</string>
 </resources>
