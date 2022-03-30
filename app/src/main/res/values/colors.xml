@@ -49,4 +49,5 @@
     <color name="cyan_700">#0097A7</color>
     <color name="cyan_800">#00838F</color>
     <color name="cyan_900">#006064</color>
+    <color name="fragment_recycler_item_earth_tvDescription_text_color">#000</color>
 </resources>
