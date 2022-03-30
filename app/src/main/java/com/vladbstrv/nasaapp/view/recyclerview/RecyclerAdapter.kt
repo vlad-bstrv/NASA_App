@@ -74,6 +74,21 @@ class RecyclerAdapter(
         holder.bind(listData[position])
     }
 
+    override fun onBindViewHolder(
+        holder: BaseViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if(payloads.isEmpty())
+        super.onBindViewHolder(holder, position, payloads)
+    else {
+        if(payloads.any { it is Pair<*, *> })
+            FragmnetRecyclerItemMarsBinding.bind(holder.itemView).apply {
+                tvName.text = listData[position].first.name
+            }
+        }
+    }
+
     override fun getItemViewType(position: Int): Int {
         return listData[position].first.type
     }
@@ -161,7 +176,9 @@ class RecyclerAdapter(
             FragmentRecyclerItemHeaderBinding.bind(itemView).apply {
                 tvName.text = data.first.name
                 itemView.setOnClickListener {
-                    onListItemClickListener.onItemClick(data.first)
+//                    onListItemClickListener.onItemClick(data.first)
+                    listData[1] = Pair(Data("Jupiter",""), false)
+                    notifyItemChanged(1, Pair(Data("",""), false))
                 }
             }
         }
