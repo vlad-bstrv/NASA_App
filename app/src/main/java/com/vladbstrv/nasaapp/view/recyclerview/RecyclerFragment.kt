@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeImageTransform
 import androidx.transition.TransitionManager
 import coil.load
@@ -24,6 +25,7 @@ class RecyclerFragment : Fragment() {
     private var _binding: FragmentRecyclerBinding? = null
     private val binding: FragmentRecyclerBinding get() = _binding!!
     private var flag = false
+    lateinit var itemTouchHelper: ItemTouchHelper
 
 
     override fun onCreateView(
@@ -49,13 +51,20 @@ class RecyclerFragment : Fragment() {
             override fun onItemClick(data: Data) {
                 Toast.makeText(requireContext(), data.name, Toast.LENGTH_SHORT).show()
             }
+        },
+        object : OnStartDragListener{
+            override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+                itemTouchHelper.startDrag(viewHolder)
+            }
+
         })
 
         adapter.setData(data)
         binding.recyclerView.adapter = adapter
         binding.recyclerActivityFAB.setOnClickListener { adapter.appendItem() }
 
-        ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(binding.recyclerView)
+        itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 
     override fun onDestroy() {

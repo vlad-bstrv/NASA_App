@@ -2,8 +2,10 @@ package com.vladbstrv.nasaapp.view.recyclerview
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MotionEventCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.vladbstrv.nasaapp.databinding.FragmentRecyclerItemEarthBinding
 import com.vladbstrv.nasaapp.databinding.FragmentRecyclerItemHeaderBinding
@@ -11,7 +13,15 @@ import com.vladbstrv.nasaapp.databinding.FragmnetRecyclerItemMarsBinding
 import com.vladbstrv.nasaapp.view.recyclerview.item_touch_helper.ItemTouchHelperAdapter
 import com.vladbstrv.nasaapp.view.recyclerview.item_touch_helper.ItemTouchHelperViewHolder
 
-class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
+interface OnStartDragListener {
+    fun onStartDrag(viewHolder: RecyclerView.ViewHolder)
+}
+
+
+class RecyclerAdapter(
+    val onListItemClickListener: OnListItemClickListener,
+    private val dragListener: OnStartDragListener
+) :
     RecyclerView.Adapter<RecyclerAdapter.BaseViewHolder>(),
     ItemTouchHelperAdapter {
 
@@ -127,6 +137,13 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
                     }
                     notifyItemChanged(layoutPosition)
                 }
+
+                dragHandleImageView.setOnTouchListener { v, event ->
+                    if(MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                        dragListener.onStartDrag(this@MarsViewHolder)
+                    }
+                    false
+                }
             }
         }
 
@@ -135,7 +152,7 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
         }
 
         override fun onItemClear() {
-            itemView.setBackgroundColor(0)
+            itemView.setBackgroundColor(Color.WHITE)
         }
     }
 
