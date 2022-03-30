@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.transition.ChangeImageTransform
 import androidx.transition.TransitionManager
 import coil.load
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.FragmentRecyclerBinding
 import com.vladbstrv.nasaapp.databinding.MarsPictureFragmentBinding
+import com.vladbstrv.nasaapp.view.recyclerview.item_touch_helper.ItemTouchHelperCallback
 
 class RecyclerFragment : Fragment() {
 
@@ -52,6 +54,8 @@ class RecyclerFragment : Fragment() {
         adapter.setData(data)
         binding.recyclerView.adapter = adapter
         binding.recyclerActivityFAB.setOnClickListener { adapter.appendItem() }
+
+        ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(binding.recyclerView)
     }
 
     override fun onDestroy() {

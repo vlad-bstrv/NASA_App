@@ -1,5 +1,6 @@
 package com.vladbstrv.nasaapp.view.recyclerview
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vladbstrv.nasaapp.databinding.FragmentRecyclerItemEarthBinding
 import com.vladbstrv.nasaapp.databinding.FragmentRecyclerItemHeaderBinding
 import com.vladbstrv.nasaapp.databinding.FragmnetRecyclerItemMarsBinding
+import com.vladbstrv.nasaapp.view.recyclerview.item_touch_helper.ItemTouchHelperAdapter
+import com.vladbstrv.nasaapp.view.recyclerview.item_touch_helper.ItemTouchHelperViewHolder
 
 class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
-    RecyclerView.Adapter<RecyclerAdapter.BaseViewHolder>() {
+    RecyclerView.Adapter<RecyclerAdapter.BaseViewHolder>(),
+    ItemTouchHelperAdapter {
 
     private lateinit var listData: MutableList<Pair<Data, Boolean>>
 
@@ -82,7 +86,7 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
         }
     }
 
-    inner class MarsViewHolder(view: View) : BaseViewHolder(view) {
+    inner class MarsViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
         override fun bind(data: Pair<Data, Boolean>) {
             FragmnetRecyclerItemMarsBinding.bind(itemView).apply {
                 tvName.text = data.first.name
@@ -116,7 +120,7 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
                     }
                 }
 
-                marsDescriptionTextView.visibility = if(data.second) View.VISIBLE else View.GONE
+                marsDescriptionTextView.visibility = if (data.second) View.VISIBLE else View.GONE
                 tvName.setOnClickListener {
                     listData[layoutPosition] = listData[layoutPosition].let {
                         it.first to !it.second
@@ -124,6 +128,14 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
                     notifyItemChanged(layoutPosition)
                 }
             }
+        }
+
+        override fun onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY)
+        }
+
+        override fun onItemClear() {
+            itemView.setBackgroundColor(0)
         }
     }
 
@@ -136,5 +148,17 @@ class RecyclerAdapter(val onListItemClickListener: OnListItemClickListener) :
                 }
             }
         }
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        listData.removeAt(fromPosition).apply {
+            listData.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, this)
+        }
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onItemDismiss(position: Int) {
+        listData.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
