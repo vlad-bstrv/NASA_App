@@ -24,8 +24,10 @@ class RecyclerFragment : Fragment() {
 
     private var _binding: FragmentRecyclerBinding? = null
     private val binding: FragmentRecyclerBinding get() = _binding!!
-    private var flag = false
+    private var isNewList = false
     lateinit var itemTouchHelper: ItemTouchHelper
+    lateinit var adapter: RecyclerAdapter
+
 
 
     override fun onCreateView(
@@ -41,13 +43,13 @@ class RecyclerFragment : Fragment() {
 
         val data = arrayListOf(
 
-            Pair(Data(getString(R.string.mars), type = TYPE_MARS), false),
+            Pair(Data(1, getString(R.string.mars), type = TYPE_MARS), false),
         )
         data.shuffle()
 
-        data.add(0, Pair(Data("Header", type = TYPE_HEADER), false))
+        data.add(0, Pair(Data(0,"Header", type = TYPE_HEADER), false))
 
-        val adapter = RecyclerAdapter(object : OnListItemClickListener {
+        adapter = RecyclerAdapter(object : OnListItemClickListener {
             override fun onItemClick(data: Data) {
                 Toast.makeText(requireContext(), data.name, Toast.LENGTH_SHORT).show()
             }
@@ -62,9 +64,36 @@ class RecyclerFragment : Fragment() {
         adapter.setData(data)
         binding.recyclerView.adapter = adapter
         binding.recyclerActivityFAB.setOnClickListener { adapter.appendItem() }
+        binding.recyclerActivityDiffUtilFAB.setOnClickListener {
+            isNewList = !isNewList
+            adapter.setData(createItemList(isNewList))
+        }
 
         itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+    }
+
+    private fun createItemList(instanceNumber: Boolean): MutableList<Pair<Data, Boolean>> {
+        return when(instanceNumber) {
+            false -> arrayListOf(
+                Pair(Data(0, "Header"), false),
+                Pair(Data(1, "Mars", ""), false),
+                Pair(Data(2, "Mars", ""), false),
+                Pair(Data(3, "Mars", ""), false),
+                Pair(Data(4, "Mars", ""), false),
+                Pair(Data(5, "Mars", ""), false),
+                Pair(Data(6, "Mars", ""), false)
+            )
+            true -> arrayListOf(
+                Pair(Data(0, "Header"), false),
+                Pair(Data(1, "Mars", ""), false),
+                Pair(Data(2, "Jupiter", ""), false),
+                Pair(Data(3, "Mars", ""), false),
+                Pair(Data(4, "Neptune", ""), false),
+                Pair(Data(5, "Saturn", ""), false),
+                Pair(Data(6, "Mars", ""), false)
+            )
+        }
     }
 
     override fun onDestroy() {

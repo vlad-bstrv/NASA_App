@@ -6,10 +6,14 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.MotionEventCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.vladbstrv.nasaapp.databinding.FragmentRecyclerItemEarthBinding
 import com.vladbstrv.nasaapp.databinding.FragmentRecyclerItemHeaderBinding
 import com.vladbstrv.nasaapp.databinding.FragmnetRecyclerItemMarsBinding
+import com.vladbstrv.nasaapp.view.recyclerview.diffutils.Change
+import com.vladbstrv.nasaapp.view.recyclerview.diffutils.DiffUtilsCallback
+import com.vladbstrv.nasaapp.view.recyclerview.diffutils.createCombinedPayload
 import com.vladbstrv.nasaapp.view.recyclerview.item_touch_helper.ItemTouchHelperAdapter
 import com.vladbstrv.nasaapp.view.recyclerview.item_touch_helper.ItemTouchHelperViewHolder
 
@@ -25,10 +29,13 @@ class RecyclerAdapter(
     RecyclerView.Adapter<RecyclerAdapter.BaseViewHolder>(),
     ItemTouchHelperAdapter {
 
-    private lateinit var listData: MutableList<Pair<Data, Boolean>>
+    private var listData: MutableList<Pair<Data, Boolean>> = mutableListOf()
 
-    fun setData(listData: MutableList<Pair<Data, Boolean>>) {
-        this.listData = listData
+    fun setData(newListData: MutableList<Pair<Data, Boolean>>) {
+        val res = DiffUtil.calculateDiff(DiffUtilsCallback(this.listData, newListData))
+        res.dispatchUpdatesTo(this)
+        listData.clear()
+        listData.addAll(newListData)
     }
 
     fun appendItem() {
@@ -36,7 +43,7 @@ class RecyclerAdapter(
         notifyItemInserted(listData.size - 1)
     }
 
-    private fun generateItem() = Pair(Data("марс", type = TYPE_MARS), false)
+    private fun generateItem() = Pair(Data(1, "марс", type = TYPE_MARS), false)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -79,14 +86,20 @@ class RecyclerAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if(payloads.isEmpty())
-        super.onBindViewHolder(holder, position, payloads)
-    else {
-        if(payloads.any { it is Pair<*, *> })
-            FragmnetRecyclerItemMarsBinding.bind(holder.itemView).apply {
-                tvName.text = listData[position].first.name
+        if (payloads.isNotEmpty()&& holder is MarsViewHolder) {
+
+            val oldData =
+                createCombinedPayload(payloads as List<Change<Pair<Data, Boolean>>>).oldData
+            val newData =
+                createCombinedPayload(payloads as List<Change<Pair<Data, Boolean>>>).newData
+            if (newData.first.name != oldData.first.name) {
+                FragmnetRecyclerItemMarsBinding.bind(holder.itemView).tvName.text =
+                    newData.first.name
             }
+        } else {
+            super.onBindViewHolder(holder, position, payloads)
         }
+
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -154,7 +167,7 @@ class RecyclerAdapter(
                 }
 
                 dragHandleImageView.setOnTouchListener { v, event ->
-                    if(MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                         dragListener.onStartDrag(this@MarsViewHolder)
                     }
                     false
@@ -177,8 +190,8 @@ class RecyclerAdapter(
                 tvName.text = data.first.name
                 itemView.setOnClickListener {
 //                    onListItemClickListener.onItemClick(data.first)
-                    listData[1] = Pair(Data("Jupiter",""), false)
-                    notifyItemChanged(1, Pair(Data("",""), false))
+                    listData[1] = Pair(Data(2, "Jupiter", ""), false)
+                    notifyItemChanged(1, Pair(Data(2, "", ""), false))
                 }
             }
         }
