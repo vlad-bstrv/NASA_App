@@ -12,8 +12,10 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.BulletSpan
+import android.text.style.RelativeSizeSpan
 import android.view.*
 import android.view.animation.AnticipateOvershootInterpolator
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -28,6 +30,7 @@ import androidx.transition.TransitionManager
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
+import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.PictureOfTheDayFragmentBinding
@@ -163,8 +166,44 @@ class PictureOfTheDayFragment : Fragment() {
                     pictureOfTheDayState.serverResponseData.title
                 setFontAndText()
 
-                binding.included.bottomSheetDescription.text =
-                    setSpanForBottomSheetDescription(pictureOfTheDayState.serverResponseData.explanation)
+//                binding.included.bottomSheetDescription.text =
+//                    setSpanForBottomSheetDescription(pictureOfTheDayState.serverResponseData.explanation)
+
+                var spannableStringBuilder = SpannableStringBuilder(pictureOfTheDayState.serverResponseData.explanation)
+                binding.included.bottomSheetDescription.setText(
+                    spannableStringBuilder,
+                    TextView.BufferType.EDITABLE
+                )
+                spannableStringBuilder = binding.included.bottomSheetDescription.text as SpannableStringBuilder
+                binding.included.slider.addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+                    when(value) {
+                        1.0f -> {
+                            spannableStringBuilder.setSpan(
+                                RelativeSizeSpan(0.5f),
+                                0,
+                                spannableStringBuilder.length,
+                                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        2.0f -> {
+                            spannableStringBuilder.setSpan(
+                                RelativeSizeSpan(1.0f),
+                                0,
+                                spannableStringBuilder.length,
+                                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        3.0f -> {
+                            spannableStringBuilder.setSpan(
+                                RelativeSizeSpan(2.0f),
+                                0,
+                                spannableStringBuilder.length,
+                                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                    }
+
+                })
 
                 binding.tvTitle.text = pictureOfTheDayState.serverResponseData.title
                 binding.tvDescription.text = pictureOfTheDayState.serverResponseData.explanation
@@ -204,7 +243,8 @@ class PictureOfTheDayFragment : Fragment() {
     }
 
     private fun setSpanForBottomSheetDescription(textDescription: String): SpannableStringBuilder {
-        val spannableStringBuilder = SpannableStringBuilder(textDescription)
+        var spannableStringBuilder = SpannableStringBuilder(textDescription)
+        spannableStringBuilder = binding.included.bottomSheetDescription.text as SpannableStringBuilder
 
         spannableStringBuilder.insert(10, "\n")
         spannableStringBuilder.insert(20, "\n")
@@ -213,32 +253,71 @@ class PictureOfTheDayFragment : Fragment() {
 
         setBulletSpan(spannableStringBuilder)
 
-        spannableStringBuilder.setSpan(AbsoluteSizeSpan(20, true), 0, spannableStringBuilder.length/2, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableStringBuilder.setSpan(
+            RelativeSizeSpan(2.0f),
+            0,
+            spannableStringBuilder.length,
+            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+//        setRelativeSizeSpan(spannableStringBuilder)
+//        binding.included.slider.addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+//            spannableStringBuilder.setSpan(
+//                RelativeSizeSpan(value),
+//                0,
+//                spannableStringBuilder.length,
+//                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+//            )
+//        })
+//        spannableStringBuilder.setSpan(AbsoluteSizeSpan(20, true), 0, spannableStringBuilder.length/2, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         return spannableStringBuilder
     }
 
+    private fun setRelativeSizeSpan(spannableStringBuilder: SpannableStringBuilder) {
+        binding.included.slider.addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+            spannableStringBuilder.setSpan(
+                RelativeSizeSpan(value),
+                0,
+                spannableStringBuilder.length,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        })
+
+    }
 
 
     private fun setBulletSpan(spannableStringBuilder: SpannableStringBuilder) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             spannableStringBuilder.setSpan(
-                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 11, 12, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                11,
+                12,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             spannableStringBuilder.setSpan(
-                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 21, 31, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                21,
+                31,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             spannableStringBuilder.setSpan(
-                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 31, 41, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                31,
+                41,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             spannableStringBuilder.setSpan(
-                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 41, 51, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                41,
+                51,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
     }
