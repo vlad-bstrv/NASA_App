@@ -8,6 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.BulletSpan
 import android.view.*
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.Toast
@@ -22,20 +26,14 @@ import androidx.lifecycle.Observer
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import coil.load
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.PictureOfTheDayFragmentBinding
-import com.vladbstrv.nasaapp.view.MainActivity
 import com.vladbstrv.nasaapp.view.chips.ChipsFragment
-import java.sql.Date
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -164,8 +162,9 @@ class PictureOfTheDayFragment : Fragment() {
                 binding.included.bottomSheetDescriptionHeader.text =
                     pictureOfTheDayState.serverResponseData.title
                 setFontAndText()
+
                 binding.included.bottomSheetDescription.text =
-                    pictureOfTheDayState.serverResponseData.explanation
+                    setSpanForBottomSheetDescription(pictureOfTheDayState.serverResponseData.explanation)
 
                 binding.tvTitle.text = pictureOfTheDayState.serverResponseData.title
                 binding.tvDescription.text = pictureOfTheDayState.serverResponseData.explanation
@@ -176,8 +175,10 @@ class PictureOfTheDayFragment : Fragment() {
     private fun setFontAndText() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            binding.included.bottomSheetDescriptionHeader.typeface = Typeface.createFromAsset(requireActivity().assets,
-            "RubikGlitch-Regular.ttf")
+            binding.included.bottomSheetDescriptionHeader.typeface = Typeface.createFromAsset(
+                requireActivity().assets,
+                "RubikGlitch-Regular.ttf"
+            )
         }
 
         val request = FontRequest(
@@ -194,7 +195,52 @@ class PictureOfTheDayFragment : Fragment() {
             }
         }
 
-        FontsContractCompat.requestFont(requireContext(), request, callback, Handler(Looper.myLooper()!!))
+        FontsContractCompat.requestFont(
+            requireContext(),
+            request,
+            callback,
+            Handler(Looper.myLooper()!!)
+        )
+    }
+
+    private fun setSpanForBottomSheetDescription(textDescription: String): SpannableStringBuilder {
+        val spannableStringBuilder = SpannableStringBuilder(textDescription)
+
+        spannableStringBuilder.insert(10, "\n")
+        spannableStringBuilder.insert(20, "\n")
+        spannableStringBuilder.insert(30, "\n")
+        spannableStringBuilder.insert(40, "\n")
+
+        setBulletSpan(spannableStringBuilder)
+
+        spannableStringBuilder.setSpan(AbsoluteSizeSpan(20, true), 0, spannableStringBuilder.length/2, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        return spannableStringBuilder
+    }
+
+
+
+    private fun setBulletSpan(spannableStringBuilder: SpannableStringBuilder) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 11, 12, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 21, 31, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 31, 41, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10), 41, 51, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
