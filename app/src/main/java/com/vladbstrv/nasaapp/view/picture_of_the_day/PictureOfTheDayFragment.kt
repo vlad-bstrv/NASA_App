@@ -1,36 +1,40 @@
 package com.vladbstrv.nasaapp.view.picture_of_the_day
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.*
 import android.view.*
 import android.view.animation.AnticipateOvershootInterpolator
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.provider.FontRequest
+import androidx.core.provider.FontsContractCompat
 import androidx.lifecycle.Observer
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import coil.load
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
+import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.PictureOfTheDayFragmentBinding
-import com.vladbstrv.nasaapp.view.MainActivity
 import com.vladbstrv.nasaapp.view.chips.ChipsFragment
-import java.sql.Date
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -158,12 +162,168 @@ class PictureOfTheDayFragment : Fragment() {
                 binding.imageView.load(pictureOfTheDayState.serverResponseData.url)
                 binding.included.bottomSheetDescriptionHeader.text =
                     pictureOfTheDayState.serverResponseData.title
-                binding.included.bottomSheetDescription.text =
-                    pictureOfTheDayState.serverResponseData.explanation
+                setFontAndText()
+
+//                binding.included.bottomSheetDescription.text =
+//                    setSpanForBottomSheetDescription(pictureOfTheDayState.serverResponseData.explanation)
+
+                var spannableStringBuilder = SpannableStringBuilder(pictureOfTheDayState.serverResponseData.explanation)
+                binding.included.bottomSheetDescription.setText(
+                    spannableStringBuilder,
+                    TextView.BufferType.EDITABLE
+                )
+                spannableStringBuilder = binding.included.bottomSheetDescription.text as SpannableStringBuilder
+                binding.included.slider.addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+                    when(value) {
+                        1.0f -> {
+                            spannableStringBuilder.setSpan(
+                                RelativeSizeSpan(0.5f),
+                                0,
+                                spannableStringBuilder.length,
+                                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        2.0f -> {
+                            spannableStringBuilder.setSpan(
+                                RelativeSizeSpan(1.0f),
+                                0,
+                                spannableStringBuilder.length,
+                                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        3.0f -> {
+                            spannableStringBuilder.setSpan(
+                                RelativeSizeSpan(2.0f),
+                                0,
+                                spannableStringBuilder.length,
+                                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                    }
+
+                })
+
+                spannableStringBuilder.setSpan(ScaleXSpan(2.0f), 0, 40, 0)
+
+                val color = ContextCompat.getColor(requireContext(), android.R.color.holo_blue_light)
+                spannableStringBuilder.setSpan(BackgroundColorSpan(color), 20, 60, 0)
+
+                spannableStringBuilder.setSpan(StyleSpan(Typeface.BOLD), 70, 90, 0)
 
                 binding.tvTitle.text = pictureOfTheDayState.serverResponseData.title
                 binding.tvDescription.text = pictureOfTheDayState.serverResponseData.explanation
             }
+        }
+    }
+
+    private fun setFontAndText() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            binding.included.bottomSheetDescriptionHeader.typeface = Typeface.createFromAsset(
+                requireActivity().assets,
+                "RubikGlitch-Regular.ttf"
+            )
+        }
+
+        val request = FontRequest(
+            "com.google.android.gms.fonts",
+            "com.google.android.gms",
+            "name=Montserrat&amp;weight=700",
+            R.array.com_google_android_gms_fonts_certs
+        )
+
+        val callback = object : FontsContractCompat.FontRequestCallback() {
+            override fun onTypefaceRetrieved(typeface: Typeface?) {
+                binding.included.bottomSheetDescriptionHeader.typeface = typeface
+                super.onTypefaceRetrieved(typeface)
+            }
+        }
+
+        FontsContractCompat.requestFont(
+            requireContext(),
+            request,
+            callback,
+            Handler(Looper.myLooper()!!)
+        )
+    }
+
+    private fun setSpanForBottomSheetDescription(textDescription: String): SpannableStringBuilder {
+        var spannableStringBuilder = SpannableStringBuilder(textDescription)
+        spannableStringBuilder = binding.included.bottomSheetDescription.text as SpannableStringBuilder
+
+        spannableStringBuilder.insert(10, "\n")
+        spannableStringBuilder.insert(20, "\n")
+        spannableStringBuilder.insert(30, "\n")
+        spannableStringBuilder.insert(40, "\n")
+
+        setBulletSpan(spannableStringBuilder)
+
+        spannableStringBuilder.setSpan(
+            RelativeSizeSpan(2.0f),
+            0,
+            spannableStringBuilder.length,
+            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+//        setRelativeSizeSpan(spannableStringBuilder)
+//        binding.included.slider.addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+//            spannableStringBuilder.setSpan(
+//                RelativeSizeSpan(value),
+//                0,
+//                spannableStringBuilder.length,
+//                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+//            )
+//        })
+//        spannableStringBuilder.setSpan(AbsoluteSizeSpan(20, true), 0, spannableStringBuilder.length/2, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        return spannableStringBuilder
+    }
+
+    private fun setRelativeSizeSpan(spannableStringBuilder: SpannableStringBuilder) {
+        binding.included.slider.addOnChangeListener(Slider.OnChangeListener { slider, value, fromUser ->
+            spannableStringBuilder.setSpan(
+                RelativeSizeSpan(value),
+                0,
+                spannableStringBuilder.length,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        })
+
+    }
+
+
+    private fun setBulletSpan(spannableStringBuilder: SpannableStringBuilder) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                11,
+                12,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                21,
+                31,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                31,
+                41,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            spannableStringBuilder.setSpan(
+                BulletSpan(50, ContextCompat.getColor(requireContext(), R.color.purple_700), 10),
+                41,
+                51,
+                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
     }
 
