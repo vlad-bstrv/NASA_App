@@ -10,9 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.BulletSpan
-import android.text.style.RelativeSizeSpan
+import android.text.style.*
 import android.view.*
 import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.TextView
@@ -204,6 +202,13 @@ class PictureOfTheDayFragment : Fragment() {
                     }
 
                 })
+
+                spannableStringBuilder.setSpan(ScaleXSpan(2.0f), 0, 40, 0)
+
+                val color = ContextCompat.getColor(requireContext(), android.R.color.holo_blue_light)
+                spannableStringBuilder.setSpan(BackgroundColorSpan(color), 20, 60, 0)
+
+                spannableStringBuilder.setSpan(StyleSpan(Typeface.BOLD), 70, 90, 0)
 
                 binding.tvTitle.text = pictureOfTheDayState.serverResponseData.title
                 binding.tvDescription.text = pictureOfTheDayState.serverResponseData.explanation
