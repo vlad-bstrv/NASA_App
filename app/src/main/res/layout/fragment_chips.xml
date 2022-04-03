@@ -112,4 +112,11 @@
             android:textColor="@color/cyan_600"/>
     </RadioGroup>
 
+    <Button
+        android:id="@+id/btnUX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ux"
+        android:layout_gravity="end"/>
+
 </LinearLayout>

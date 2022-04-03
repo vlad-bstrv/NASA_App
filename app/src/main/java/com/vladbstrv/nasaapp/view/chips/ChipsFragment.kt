@@ -24,6 +24,7 @@ import com.vladbstrv.nasaapp.view.MainActivity
 import com.vladbstrv.nasaapp.view.ThemeOne
 import com.vladbstrv.nasaapp.view.ThemeThree
 import com.vladbstrv.nasaapp.view.ThemeTwo
+import com.vladbstrv.nasaapp.view.ux.UxTextFragment
 
 class ChipsFragment : Fragment(), View.OnClickListener {
 
@@ -54,6 +55,13 @@ class ChipsFragment : Fragment(), View.OnClickListener {
             1 -> binding.radioGroup.check(R.id.rbtnOrangeTheme)
             2 -> binding.radioGroup.check(R.id.rbtnTealTheme)
             3 -> binding.radioGroup.check(R.id.rbtnCyanTheme)
+        }
+
+        binding.btnUX.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.container, UxTextFragment())
+                .addToBackStack("")
+                .commit()
         }
     }
 
