@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
+                android:id="@+id/layoutBad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -27,20 +29,20 @@
                     android:layout_height="wrap_content"
                     android:padding="20dp"
                     android:text="high emphasis"
-                    android:textSize="28dp"/>
+                    android:textSize="28dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/cyan_200"
                     android:text="medium emphasis"
-                    android:textSize="20dp"
-                    android:backgroundTint="@color/cyan_200"/>
+                    android:textSize="20dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="low emphasis"
-                    android:backgroundTint="@color/textDarkDisabled"/>
+                    android:backgroundTint="@color/textDarkDisabled"
+                    android:text="low emphasis" />
 
             </LinearLayout>
 
@@ -49,6 +51,7 @@
                 android:layout_height="15dp" />
 
             <LinearLayout
+                android:id="@+id/layoutGood"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -57,21 +60,19 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="high emphasis"
-                    />
+                    android:text="high emphasis" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:text="medium emphasis"
-                    />
-
-                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="low emphasis"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                    android:text="medium emphasis" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="low emphasis" />
             </LinearLayout>
 
             <View
@@ -88,21 +89,19 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="high emphasis"
-                    />
+                    android:text="high emphasis" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:text="medium emphasis"
-                    />
-
-                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="low emphasis"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                    android:text="medium emphasis" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="low emphasis" />
             </LinearLayout>
 
             <View
@@ -119,21 +118,19 @@
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="high emphasis"
-                    />
+                    android:text="high emphasis" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:text="medium emphasis"
-                    />
-
-                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="low emphasis"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                    android:text="medium emphasis" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="low emphasis" />
             </LinearLayout>
 
             <View
@@ -141,42 +138,39 @@
                 android:layout_height="15dp" />
 
             <LinearLayout
+                android:id="@+id/layoutGoodNewMaterial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="high emphasis"
                     style="@style/Widget.Material3.Button"
-                    />
-
-                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="high emphasis"
+                    android:text="high emphasis" />
+
+                <com.google.android.material.button.MaterialButton
                     style="@style/Widget.Material3.Button.TonalButton"
-                    />
-
-                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="high emphasis" />
+
+                <com.google.android.material.button.MaterialButton
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:text="medium emphasis"
-                    />
-
-                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="low emphasis"
-                    style="@style/Widget.Material3.Button.TextButton"/>
+                    android:text="medium emphasis" />
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="low emphasis" />
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 
 
 </LinearLayout>
