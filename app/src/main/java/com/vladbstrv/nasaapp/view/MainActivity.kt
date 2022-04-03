@@ -2,6 +2,8 @@ package com.vladbstrv.nasaapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.vladbstrv.nasaapp.R
 import com.vladbstrv.nasaapp.databinding.ActivityMainBinding
@@ -9,6 +11,7 @@ import com.vladbstrv.nasaapp.view.chips.ChipsFragment
 import com.vladbstrv.nasaapp.view.picture_galaxy.GalaxyMainFragment
 import com.vladbstrv.nasaapp.view.picture_of_the_day.PictureOfTheDayFragment
 import com.vladbstrv.nasaapp.view.recyclerview.RecyclerFragment
+import com.vladbstrv.nasaapp.view.splash.SplashFragment
 
 const val ThemeOne = 1
 const val ThemeTwo = 2
@@ -27,7 +30,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initBottomNavigationView()
+        navigationTo(SplashFragment())
+
+        binding.bottomNavigationView.visibility = View.GONE
+        Handler(mainLooper).postDelayed({
+            val padding = (resources.displayMetrics.density * 50 + 0.5F).toInt()
+            binding.bottomNavigationView.visibility = View.VISIBLE
+            binding.container.setPadding(0, 0, 0 , padding)
+            initBottomNavigationView()
+        }, 2000L)
+
+
 
     }
 
@@ -59,6 +72,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigationTo(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
             .replace(R.id.container, fragment)
             .commit()
     }

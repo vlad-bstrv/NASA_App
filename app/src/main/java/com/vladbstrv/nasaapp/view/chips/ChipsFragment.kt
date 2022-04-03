@@ -24,6 +24,8 @@ import com.vladbstrv.nasaapp.view.MainActivity
 import com.vladbstrv.nasaapp.view.ThemeOne
 import com.vladbstrv.nasaapp.view.ThemeThree
 import com.vladbstrv.nasaapp.view.ThemeTwo
+import com.vladbstrv.nasaapp.view.ux.UxButtonFragment
+import com.vladbstrv.nasaapp.view.ux.UxTextFragment
 
 class ChipsFragment : Fragment(), View.OnClickListener {
 
@@ -54,6 +56,31 @@ class ChipsFragment : Fragment(), View.OnClickListener {
             1 -> binding.radioGroup.check(R.id.rbtnOrangeTheme)
             2 -> binding.radioGroup.check(R.id.rbtnTealTheme)
             3 -> binding.radioGroup.check(R.id.rbtnCyanTheme)
+        }
+
+        binding.btnUXText.setOnClickListener {
+            parentFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
+                .replace(R.id.container, UxTextFragment())
+                .addToBackStack("")
+                .commit()
+        }
+
+        binding.btnUXButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in,
+                    R.anim.fade_out,
+                    R.anim.fade_in,
+                    R.anim.slide_out
+                )
+                .replace(R.id.container, UxButtonFragment())
+                .addToBackStack("")
+                .commit()
         }
     }
 

@@ -25,6 +25,23 @@
         <item name="switchStyle">@style/mySwitchStyle</item>
     </style>
 
+    <style name="MySplashScreenTheme" parent="Theme.NASAApp">
+        <item name="superColor1_600">@color/teal_600</item>
+        <item name="superColor1_700">@color/orange_700</item>
+        <item name="superColor1_100">@color/teal_100</item>
+        <item name="superColor1_900">@color/teal_900</item>
+        <item name="superColor1_200">@color/teal_200</item>
+        <item name="superColor2_600">@color/cyan_600</item>
+        <item name="superColor2_100">@color/cyan_100</item>
+        <item name="superColor2_900">@color/cyan_900</item>
+        <item name="superColor3_600">@color/orange_600</item>
+        <item name="superColor3_100">@color/orange_100</item>
+        <item name="superColor3_900">@color/orange_900</item>
+        <item name="superColor3_800">@color/orange_800</item>
+        <item name="fontFamily">@font/montserrat_light</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
     <style name="MyOrangeTheme" parent="Theme.NASAApp">
         <item name="superColor1_600">@color/teal_600</item>
         <item name="superColor1_700">@color/orange_700</item>
