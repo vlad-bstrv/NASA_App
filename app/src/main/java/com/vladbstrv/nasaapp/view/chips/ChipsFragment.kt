@@ -59,7 +59,12 @@ class ChipsFragment : Fragment(), View.OnClickListener {
         }
 
         binding.btnUXText.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            parentFragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
                 .replace(R.id.container, UxTextFragment())
                 .addToBackStack("")
                 .commit()
@@ -67,6 +72,12 @@ class ChipsFragment : Fragment(), View.OnClickListener {
 
         binding.btnUXButton.setOnClickListener {
             parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in,
+                    R.anim.fade_out,
+                    R.anim.fade_in,
+                    R.anim.slide_out
+                )
                 .replace(R.id.container, UxButtonFragment())
                 .addToBackStack("")
                 .commit()
