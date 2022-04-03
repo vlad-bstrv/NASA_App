@@ -120,4 +120,6 @@
 планетой» из-за красноватого оттенка поверхности, придаваемого ей минералом
 маггемитом (оксидом железа).</string>
     <string name="ux">ux</string>
+    <string name="ux_text">ux text</string>
+    <string name="ux_button">ux button</string>
 </resources>
